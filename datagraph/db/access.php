@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report_datagraph version information.
+ * report_datagraph capability definitions.
  *
  * @package   report_datagraph
  * @copyright 2013 Lafayette College ITS
@@ -24,8 +24,15 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2020072200;
-$plugin->requires  = 2018120300;
-$plugin->component = 'report_datagraph';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = 'v3.6.3';
+$capabilities = array(
+    'report/datagraph:view' => array(
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+        'clonepermissionsfrom' => 'moodle/site:viewreports',
+    )
+);

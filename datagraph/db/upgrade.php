@@ -15,17 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report_datagraph version information.
+ * Define upgrade tasks for the plugin.
  *
  * @package   report_datagraph
- * @copyright 2013 Lafayette College ITS
+ * @copyright 2020 onward Lafayette College ITS
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2020072200;
-$plugin->requires  = 2018120300;
-$plugin->component = 'report_datagraph';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = 'v3.6.3';
+/**
+ * Upgrade function for plugin.
+ *
+ * @param int $oldversion The old version of the plugin
+ * @return bool A status indicating success or failure
+ */
+function xmldb_report_datagraph_upgrade($oldversion) {
+    if ($oldversion < 2020011000) {
+        // Migrate 'show_username' setting to new 'fields' setting.
+        $showusername = get_config('report_datagraph', 'show_username');
+
+        if ($showusername) {
+            set_config('fields', "fullname\nusername", 'report_datagraph');
+        }
+
+        upgrade_plugin_savepoint(true, 2020011000, 'report', 'datagraph');
+    }
+
+    return true;
+}

@@ -15,17 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * report_datagraph version information.
+ * Privacy implementation for report_datagraph.
  *
  * @package   report_datagraph
- * @copyright 2013 Lafayette College ITS
+ * @copyright 2018 Lafayette College ITS
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace report_datagraph\privacy;
 
-$plugin->version   = 2020072200;
-$plugin->requires  = 2018120300;
-$plugin->component = 'report_datagraph';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = 'v3.6.3';
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Privacy subsystem for report_datagraph implementing null_provider.
+ *
+ * @copyright  2018 Lafayette College ITS
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
